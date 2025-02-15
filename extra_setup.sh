@@ -15,7 +15,7 @@ sudo chmod 755 /usr/local/bin/resetOnstep.py
 # gps related
 sudo cp nmea_fake /usr/local/share/
 sudo cp gps-fallback.py /usr/local/bin/
-sudo chmod 755 /usr/local/bin/gps-fallback.service
+sudo chmod 755 /usr/local/bin/gps-fallback.py
 sudo cp gps-fallback.service /etc/systemd/system/
 sudo systemctl disable hciuart
 sudo raspi-config nonint do_vnc 0 
