@@ -6,6 +6,7 @@ export CXXFLAGS="-march=native -w -Wno-psabi -D_FILE_OFFSET_BITS=64"
 LIBXISF_COMMIT="v0.2.13"
 INDI_COMMIT="v2.1.2"
 INDI_3RD_COMMIT="v2.1.2"
+PINDI_COMMIT="v2.1.2"
 STELLAR_COMMIT="157092d6f843fb987818bd61f0b14b440eca3146"
 KSTARS_COMMIT="origin/stable-3.7.5"
 
@@ -79,7 +80,17 @@ cd ../build-kstars
 make -j $JOBS || { echo "KStars compilation failed"; exit 1; }
 sudo make install || { echo "KStars installation failed"; exit 1; }
 
+
+cd "$ROOTDIR"
+[ ! -d "pyindi-client" ] && { git clone https://github.com/indilib/pyindi-client.git || { echo "Failed to clone pyindi-client"; exit 1; } }
+cd pyindi-client
+git fetch origin
+sudo python setup.py install || { echo "PYINDI installation failed"; exit 1; }
+
+
 sudo ldconfig
+
+
 
 [ "$1" != "phd2" ] && exit
 
