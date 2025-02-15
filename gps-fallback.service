@@ -1,0 +1,14 @@
+[Unit]
+Description=GPS Fallback Service
+After=gpsd.service
+Requires=gpsd.service
+
+[Service]
+ExecStart=/usr/local/bin/gps-fallback.py
+Restart=always
+User=root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
