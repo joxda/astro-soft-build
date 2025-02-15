@@ -15,4 +15,4 @@ sudo apt -y install libnova-dev libcfitsio-dev libusb-1.0-0-dev zlib1g-dev libgs
 
 [ "$1" == "j3" ] && sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig
 [ "$2" == "j3" ] && sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig
-[ "$1" == "j3" ] && sudo raspi-config nonint do_vnc 0 
+
