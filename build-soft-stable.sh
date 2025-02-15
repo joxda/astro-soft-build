@@ -81,11 +81,15 @@ make -j $JOBS || { echo "KStars compilation failed"; exit 1; }
 sudo make install || { echo "KStars installation failed"; exit 1; }
 
 
+
 cd "$ROOTDIR"
 [ ! -d "pyindi-client" ] && { git clone https://github.com/indilib/pyindi-client.git || { echo "Failed to clone pyindi-client"; exit 1; } }
 cd pyindi-client
 git fetch origin
+git switch -d --discard-changes $PYINDI_COMMIT
 sudo python setup.py install || { echo "PYINDI installation failed"; exit 1; }
+
+
 
 
 sudo ldconfig
