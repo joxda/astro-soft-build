@@ -12,10 +12,17 @@ sudo curl https://raw.githubusercontent.com/joxda/indiwebmanager/refs/heads/mast
 sudo chmod 755 /usr/local/bin/resetOnstep.py
 
 
-
-
 # gps related
+sudo cp nmea_fake /usr/local/share/
+sudo cp gps-fallback.py /usr/local/bin/
+sudo chmod 755 /usr/local/bin/gps-fallback.service
+sudo cp gps-fallback.service /etc/systemd/system/
 sudo systemctl disable hciuart
+sudo raspi-config nonint do_vnc 0 
+sudo raspi-config nonint do_serial_cons 1
+sudo raspi-config nonint do_serial_hw 0
 
 sudo systemctl daemon-reload
 sudo systemctl enable indiwebmanager.service
+sudo systemctl enable gpsd
+sudo systemctl enable gps-fallback.service
