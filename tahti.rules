@@ -1,0 +1,2 @@
+UBSYSTEM=="tty", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="0483", ATTRS{serial}=="6982550", SYMLINK+="OnStep", GROUP="dialout", MODE="0666", RUN+="/usr/local/bin/onstepReset.py"
+SUBSYSTEM=="usb", ATTR{idProduct}=="ea60", ATTR{idVendor}=="10c4", ATTR{serial}=="0001", SYMLINK+="CFW", GROUP="dialout", MODE="0666"
