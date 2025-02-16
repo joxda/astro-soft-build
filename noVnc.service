@@ -1,0 +1,12 @@
+[Unit]
+Description="noVNC Server for WayVNC"
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/websockify --web /usr/share/novnc/  --cert /etc/selfsigned/self.pem --key /etc/selfsigned/key.pem 127.0.0.1:6080 127.0.0.1:5900
+Restart=on-failure
+RestartSec=3
+ExecStop=/usr/bin/pkill websockify
+
+[Install]
+WantedBy=multi-user.target
