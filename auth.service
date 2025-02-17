@@ -1,0 +1,15 @@
+[Unit]
+Description=Auth service
+After=multi-user.target
+
+[Service]
+Type=idle
+# MUST SET YOUR USERNAME HERE.
+User=tahti
+ExecStart=/usr/local/indiweb/venv/bin/python /usr/share/auth/auth.py
+Restart=always
+Environment="PATH=/usr/local/indiweb/venv/bin"
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

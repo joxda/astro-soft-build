@@ -2,7 +2,7 @@
 
 sudo mkdir -p /usr/local/indiweb
 sudo python -m venv /usr/local/indiweb/venv
-sudo /usr/local/indiweb/venv/bin/pip install indiweb requests==2.32.2 psutil bottle==0.12.25 importlib_metadata==8.5.0
+sudo /usr/local/indiweb/venv/bin/pip install indiweb requests==2.32.2 psutil bottle==0.12.25 importlib_metadata==8.5.0 python-pam six flask_cors
 
 
 sudo curl https://raw.githubusercontent.com/joxda/indiwebmanager/refs/heads/master/indiwebmanager.service -o /etc/systemd/system/indiwebmanager.service
@@ -41,8 +41,11 @@ sudo cp tahti.nginx.config /etc/nginx/sites-available
 [ ! -f /etc/nginx/sites-enabled/tahti.nginx.config ] && sudo ln /etc/nginx/sites-available/tahti.nginx.config /etc/nginx/sites-enabled
 
 
-
-
+sudo cp /var/www/html/panels.html /var/www/html/index.html
+sudo cp /usr/share/novnc/vnc.html /usr/share/novnc/index.html
+sudo cp auth.service /etc/systemd/system
+[ ! -d "/usr/share/auth" ] && sudo mkdir /usr/share/auth
+sudo cp auth.py /usr/share/auth
 
 
 
@@ -66,3 +69,4 @@ sudo systemctl enable gps-fallback.service
 sudo systemctl enable noVnc.service
 sudo systemctl enable gpspanel.service
 sudo systemctl enable astropanel.service
+sudo systemctl enable auth.service

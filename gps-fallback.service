@@ -4,7 +4,7 @@ After=gpsd.service
 Requires=gpsd.service
 
 [Service]
-ExecStart=/usr/local/bin/gps-fallback.py
+ExecStart=python /usr/local/bin/gps-fallback.py  -n /usr/local/share/nmea_fake
 Restart=always
 User=root
 StandardOutput=journal
