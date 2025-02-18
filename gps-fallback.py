@@ -215,7 +215,7 @@ if __name__ == '__main__':
             #nmea += "$GPRMC,133718,A,3412.717,N,01138.281,E,000.0,185.1,140900,000.6,E*76\n"
             #nmea += "$GPRMB,A,0.00,R,AC,CB,3412.999,N,01138.290,E,000.3,001.3,,V*04\n"
 
-            gpgga = "GPGGA,%s,%s,%s,%s,%s,1,12,1.0,%s,M,0.0,M,," % (time_now, latitude, NS, longitude, WE, elevation)
+            gpgga = "GPGGA,%s,%s,%s,%s,%s,6,12,1.0,%s,M,0.0,M,," % (time_now, latitude, NS, longitude, WE, elevation)
             gpgga = "$%s*%s" % (gpgga, nmea_checksum(gpgga))
             nmea += gpgga + "\n" 
 
@@ -243,8 +243,7 @@ if __name__ == '__main__':
 
             # Ensure it's a TPV report
             real_fix = False
-            if report['class'] == 'TPV':
-                print(report)                 
+            if report['class'] == 'TPV':                
                 # Check if the device is NOT the fake one                                                                                                                                                                                                                                                                              
                 if hasattr(report, 'device') and "/dev/" in report.device and pty not in report.device:
                     # Check for real satellite data                                                                                                                                                                                                                                                                                

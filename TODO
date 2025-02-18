@@ -1,0 +1,24 @@
+
+make it so that the password has to be changed
+
+rework other virtualgps things back to using the conf file. if not available disable the virtual
+
+script or something to change the host name (in all place?)
+
+first use script -> set location etc.
+
+html -> remove astroberry references -> what about a start page without the need to login?
+
+how about sequence managing per html??? pyindi?
+
+graphcis blub
+
+desktop settings see astroberry
+
+make image thing
+
+reload save stuff from old
+
+nicer organized, clean up, keep repos so that update build can be done?
+
+gpspanel: indicate virtul gps
