@@ -1,0 +1,13 @@
+[Unit]
+Description=GPS Panel
+After=multi-user.target gpsd.socket
+
+[Service]
+Type=idle
+User=tahti
+ExecStart=/usr/local/tahti/venv/bin/python /var/www/gpspanel/gpspanel.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

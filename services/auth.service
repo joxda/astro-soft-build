@@ -4,11 +4,10 @@ After=multi-user.target
 
 [Service]
 Type=idle
-# MUST SET YOUR USERNAME HERE.
 User=tahti
-ExecStart=/usr/local/indiweb/venv/bin/python /usr/share/auth/auth.py
+ExecStart=/usr/local/tahti/venv/bin/python /usr/local/tahti/auth.py
 Restart=always
-Environment="PATH=/usr/local/indiweb/venv/bin"
+Environment="PATH=/usr/local/tahti/venv/bin"
 RestartSec=5
 
 [Install]

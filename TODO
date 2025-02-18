@@ -1,11 +1,10 @@
 
 make it so that the password has to be changed
 
-rework other virtualgps things back to using the conf file. if not available disable the virtual
 
 script or something to change the host name (in all place?)
 
-first use script -> set location etc.
+first use script -> set location etc. (also get relevant astrometry files)
 
 html -> remove astroberry references -> what about a start page without the need to login?
 
@@ -21,4 +20,9 @@ reload save stuff from old
 
 nicer organized, clean up, keep repos so that update build can be done?
 
-gpspanel: indicate virtul gps
+add other licenses
+add gpl license
+
+
+
+replace tahti in paths etc in the scripts by some variable that can then be given as parameter / Environment variable

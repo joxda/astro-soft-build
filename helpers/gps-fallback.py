@@ -4,6 +4,7 @@
 # Virtual GPS simulates GPS receiver available on pseudo terminal
 #
 # Copyright(c) 2019 Radek Kaczorek  <rkaczorek AT gmail DOT com>
+# Copyright(c) 2025 Joachim Janz
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Library General Public
@@ -23,13 +24,13 @@ import os, sys, re, signal, time, datetime, argparse, configparser, gps
 
 session = gps.gps(mode=gps.WATCH_ENABLE)
 
-__author__ = 'Radek Kaczorek'
-__copyright__ = 'Copyright 2019 - 2023 Radek Kaczorek'
+__author__ = 'Radek Kaczorek, Joachim Janz'
+__copyright__ = 'Copyright 2019 - 2023 Radek Kaczorek, 2025 Joachim Janz'
 __license__ = 'GPL-3'
 __version__ = '1.2.1'
 
 # default config file
-config_file = "/etc/virtualgps.conf"
+config_file = "/usr/local/tahti/virtualgps.conf"
 
 # default profile name
 profile_name = "default"
@@ -252,7 +253,7 @@ if __name__ == '__main__':
                             real_fix = True
 
             if real_fix:
-                break;
+                break
 
 
         except KeyboardInterrupt:

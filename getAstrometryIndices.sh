@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# THIS IS A SELECTION BASED ON MY GEOGRAPHIC LATITUDE AND FOV. provide a script?
 sudo mkdir -p /usr/local/astrometry/data
 sudo curl http://data.astrometry.net/4100/index-4112.fits -o /usr/local/astrometry/data/index-4112.fits
 sudo curl http://data.astrometry.net/4100/index-4111.fits -o /usr/local/astrometry/data/index-4111.fits

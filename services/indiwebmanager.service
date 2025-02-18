@@ -1,0 +1,11 @@
+[Service]
+
+Type=idle
+User=tahti
+ExecStart=/usr/local/tahti/venv/bin/indi-web -v
+Restart=always
+WorkingDirectory=/usr/local/indiweb
+Environment="PATH=/usr/local/tahti/venv/bin"
+RestartSec=5
+
+[Install]
