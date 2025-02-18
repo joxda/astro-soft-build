@@ -253,9 +253,12 @@ if __name__ == '__main__':
                             real_fix = True
 
             if real_fix:
+                print("Now real GPS has fix")
                 break
 
 
         except KeyboardInterrupt:
+            print("keboard interrupt")
             shutdown()
+    print("shurdown")
     shutdown()

@@ -4,7 +4,7 @@ After=gpsd.service
 Requires=gpsd.service
 
 [Service]
-ExecStart=/usr/local/tahti/venv/bin/python /usr/local/tahti/gps-fallback.py
+ExecStart=python /usr/local/tahti/gps-fallback.py
 Restart=always
 User=root
 StandardOutput=journal
