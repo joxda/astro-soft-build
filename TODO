@@ -1,8 +1,11 @@
 
+
 make it so that the password has to be changed
 
 
-script or something to change the host name (in all place?)
+master script to run all (with optionalPHD2 argument)
+
+script or something to change the host name (in all place?) -- see also below
 
 first use script -> set location etc. (also get relevant astrometry files)
 
@@ -26,3 +29,6 @@ add gpl license
 
 
 replace tahti in paths etc in the scripts by some variable that can then be given as parameter / Environment variable
+
+
+in some way a cmake for astropanel & gpspanel would be nice
