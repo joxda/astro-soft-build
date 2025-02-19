@@ -1,4 +1,7 @@
 
+rethink the login business since probably there should be more control about the validity time and the username / password not stored to the browser
+
+
 
 make it so that the password has to be changed
 
@@ -32,3 +35,7 @@ replace tahti in paths etc in the scripts by some variable that can then be give
 
 
 in some way a cmake for astropanel & gpspanel would be nice
+
+NEED TO CHECK FOR HOW LONG THE LONG IN IS NOT RE-REQUESTED
+
+https://tahti.local/desktop/vnc.html?autoconnect=true
