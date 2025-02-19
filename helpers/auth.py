@@ -6,6 +6,9 @@ app = Flask(__name__)
 
 @app.route('/auth', methods=['GET'])
 def auth():
+   cert_status = request.headers.get("X-Cert-Status")
+   if cert_status == "SUCCESS":
+       return Response('OK', 200)
    auth_header = request.headers.get('Authorization')
    if not auth_header:
 #      print("no header")
