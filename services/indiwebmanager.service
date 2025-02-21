@@ -2,7 +2,7 @@
 
 Type=idle
 User=tahti
-ExecStart=/usr/local/tahti/venv/bin/indi-web -v
+ExecStart=/usr/local/tahti/venv/bin/indi-web -v -H 127.0.0.1
 Restart=always
 WorkingDirectory=/usr/local/indiweb
 Environment="PATH=/usr/local/tahti/venv/bin"
