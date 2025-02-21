@@ -5,13 +5,8 @@ rethink the login business since probably there should be more control about the
 *** astroberry wui missing from the installation -- strip down to html put welcome page, add logout in many places, remove astroberry, add link to the autologin noVnc, help page?
 
 
-
 ** make it so that the password has to be changed
-
-
-** master script to run all (with optionalPHD2 argument)
-
-* script or something to change the host name (in all place?) -- see also below
+** master script to run all (with optionalPHD2 argument) -- 
 
 * first use script -> set location etc. (also get relevant astrometry files)
 
@@ -23,9 +18,7 @@ graphcis blub
 
 * desktop settings see astroberry
 
-*** make image thing
-
-** reload save stuff from old
+reload save stuff from old
 
 nicer organized, clean up, keep repos so that update build can be done?
 
@@ -34,10 +27,9 @@ add other licenses
 
 
 
-replace tahti in paths etc in the scripts by some variable that can then be given as parameter / Environment variable
-
-
 ** in some way a cmake for astropanel & gpspanel would be nice -- maybe put relevant files in subdirs and then see the astroberry-wui cmake
 
 
 https://tahti.local/desktop/vnc.html?autoconnect=true
+
+ufw? allow ssh and desktop only from local network?
