@@ -38,6 +38,14 @@ sudo /usr/local/tahti/venv/bin/pip install -r requirements.txt
 [ ! -d "/var/www/astrospanel" ] && { sudo mkdir /var/www/astropanel; } 
 sudo cp	-r ./* /var/www/astropanel/
 
+cd "$ROOTDIR"
+[ ! -d "astroberry-server-wui" ] && { git clone https://github.com/joxda/astroberry-server-wui.git || { echo "Failed to clone astroberry-server-wui"; exit 1; } }
+de astroberry-server-wui
+git checkout j3
+git fetch
+git pull
+sudo cp -r files/html/* /var/www
+
 sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors  
 sudo /usr/local/tahti/venv/bin/pip install --use-pep517 git+https://github.com/joxda/gps3.git git+https://github.com/knro/indiwebmanager
 

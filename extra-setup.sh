@@ -20,10 +20,11 @@ sudo cp configs/tahti.nginx.config /etc/nginx/sites-available
 [ ! -f /etc/nginx/sites-enabled/tahti.nginx.config ] && { sudo ln /etc/nginx/sites-available/tahti.nginx.config /etc/nginx/sites-enabled; }
 
 # update
-sudo cp /var/www/html/panels.html /var/www/html/index.html ## different one or set in the nginx config
+#sudo cp /var/www/html/panels.html /var/www/html/index.html ## different one or set in the nginx config
 sudo cp /usr/share/novnc/vnc.html /usr/share/novnc/index.html
 
 sudo cp helpers/auth.py /usr/local/tahti
+sudo cp helpers/pointing.py /usr/local/tahti
 sudo cp configs/virtualgps.conf /usr/local/tahti
 
 

@@ -2,15 +2,13 @@
 rethink the login business since probably there should be more control about the validity time and the username / password not stored to the browser
  -> logout thing
  
-*** astroberry wui missing from the installation -- strip down to html put welcome page, add logout in many places, remove astroberry, add link to the autologin noVnc, help page?
-
+*** add logout in many places, add link to the autologin noVnc, help page?
+*** landing page
 
 ** make it so that the password has to be changed
 ** master script to run all (with optionalPHD2 argument) -- 
 
 * first use script -> set location etc. (also get relevant astrometry files)
-
-*** html -> remove astroberry references -> what about a start page without the need to login?
 
 how about sequence managing per html??? pyindi?
 
@@ -32,4 +30,4 @@ add other licenses
 
 https://tahti.local/desktop/vnc.html?autoconnect=true
 
-ufw? allow ssh and desktop only from local network?
+*** ufw? allow ssh and desktop only from local network?
