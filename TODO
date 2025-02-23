@@ -3,7 +3,8 @@ rethink the login business since probably there should be more control about the
  -> logout thing
  
 *** add logout in many places, add link to the autologin noVnc, help page?
-*** landing page
+*** landing page (uncertain location)
+*** keep somehow track of versions and make available on landing page
 
 ** make it so that the password has to be changed
 ** master script to run all (with optionalPHD2 argument) -- 
@@ -30,4 +31,4 @@ add other licenses
 
 https://tahti.local/desktop/vnc.html?autoconnect=true
 
-*** ufw? allow ssh and desktop only from local network?
+*** ufw? allow ssh and desktop only from local network? indi-server at 7624

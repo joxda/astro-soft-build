@@ -1,32 +1,114 @@
-from flask import Flask, request, Response
+from flask import Flask, request, jsonify, make_response, render_template_string
 import pam
 import base64
+import datetime
+import os
+import requests
+import jwt
+
+SECRET_KEY = os.urandom(32).hex()
 
 app = Flask(__name__)
 
-@app.route('/auth', methods=['GET'])
-def auth():
-   cert_status = request.headers.get("X-Cert-Status")
-   if cert_status == "SUCCESS":
-       return Response('OK', 200)
-   auth_header = request.headers.get('Authorization')
-   if not auth_header:
-#      print("no header")
-      return Response('Unauthorized', 401, {'WWW-Authenticate': 'Basic realm="Login"'})
+revoked_tokens = set()
+
+
+def generate_jwt(username):
+   expiration = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
+   token = jwt.encode({"username": username, "exp": expiration}, SECRET_KEY, algorithm="HS256")
+   return token
+
+@app.route("/auth", methods=["POST"])
+def authenticate():
+   username = request.form.get("username")
+   password = request.form.get("password")
+
+   p = pam.pam()
+   if p.authenticate(username, password):
+       token = generate_jwt(username)
+       response = make_response(jsonify({"message": "Login successful"}))
+       response.set_cookie("jwt", token, httponly=True, secure=True)  # Store JWT in a cookie
+       return response
+   return "Unauthorized", 401
+
+@app.route("/validate", methods=["GET"])
+def validate():
+   token = request.cookies.get("jwt")  # Read JWT from cookie
+
+   if not token or token in revoked_tokens:
+       return "Unauthorized", 401
 
    try:
-       auth_type, credentials = auth_header.split()
-       username, password = base64.b64decode(credentials).decode().split(':')
-#       print(username, password)
-       p = pam.pam()
-       if p.authenticate(username, password):
-#           print("OK")
-           return Response('OK', 200)
-   except Exception as e:
-       print("Exception: ", e)
-       pass
-#   print("NOOO")
-   return Response('Unauthorized', 401, {'WWW-Authenticate': 'Basic realm="Login"'})
+       decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+       return jsonify({"username": decoded["username"]}), 200
+   except jwt.ExpiredSignatureError:
+       return "Token expired", 401
+   except jwt.InvalidTokenError:
+       return "Invalid token", 401
 
-if __name__ == '__main__':
-   app.run(host='127.0.0.1', port=9000)#, ssl_context=('/etc/selfsigned/self.pem','/etc/selfsigned/key.pem'))
+@app.route("/logout", methods=["POST"])
+def logout():
+   token = request.cookies.get("jwt")
+   if token:
+       revoked_tokens.add(token)  # Add token to blocklist
+   response = make_response(jsonify({"message": "Logged out"}))
+   response.set_cookie("jwt", "", expires=0, httponly=True, secure=True)  # Clear cookie
+   return response
+
+# Function to fetch and embed content
+def fetch_secure_content(path):
+   backend_url = f"http://127.0.0.1:8080{path}"  # NGINX proxy backend
+   token = request.cookies.get("jwt")
+
+   if not token or token in revoked_tokens:
+       return "Unauthorized", 401
+
+   headers = {"Authorization": f"Bearer {token}"}
+   try:
+       response = requests.get(backend_url, headers=headers)
+       if response.status_code == 200:
+           return response.text
+       else:
+           return "Unauthorized", 401
+   except requests.RequestException:
+       return "Error fetching content", 500
+
+# Secure1 Wrapped with Header
+@app.route("/secure/<path:subpath>")
+def secure(subpath):
+   content = fetch_secure_content(f"/{subpath}")
+   return render_template_string("""
+       <!DOCTYPE html>
+       <html lang="en">
+       <head>
+           <meta charset="UTF-8">
+           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+           <title>Secure 1</title>
+           <style>
+               body { font-family: Arial, sans-serif; text-align: center; }
+               .header { background: #333; color: white; padding: 10px; }
+               .logout-btn { background: red; color: white; padding: 5px 10px; border: none; cursor: pointer; }
+           </style>
+       </head>
+       <body>
+           <div class="header">
+               <h1>Secure 1</h1>
+               <button class="logout-btn" onclick="logout()">Logout</button>
+           </div>
+           <div class="content">
+               {{ content | safe }}
+           </div>
+           <script>
+               function logout() {
+                   fetch('/logout/', { method: 'POST', credentials: 'include' })
+                   .then(response => {
+                       if (response.ok) {
+                           alert("Logged out successfully.");
+                           window.location.href = "/login/";
+                       }
+                   });
+               }
+           </script>
+       </body>
+       </html>
+   """, content=content)
