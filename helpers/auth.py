@@ -12,14 +12,34 @@ app = Flask(__name__)
 
 revoked_tokens = set()
 
+LOGIN_FORM = """
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+</head>
+<body>
+<h2>Login</h2>
+<form method="POST">
+<label>Username:</label>
+<input type="text name="username" required><br><br>
+<label>Password:</label>
+<input type="password" name="password" required><br><br>
+button type"submit">Login</button>
+</form>
+</body>
+</html>
+"""
 
 def generate_jwt(username):
    expiration = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
    token = jwt.encode({"username": username, "exp": expiration}, SECRET_KEY, algorithm="HS256")
    return token
 
-@app.route("/auth", methods=["POST"])
+@app.route("/auth", methods=["GET", "POST"])
 def authenticate():
+   if request.method == "GET":
+      return render_template_string(LOGIN_FORM)
    username = request.form.get("username")
    password = request.form.get("password")
 
@@ -112,3 +132,6 @@ def secure(subpath):
        </body>
        </html>
    """, content=content)
+
+if __name__ == '__main__':
+   app.run(host='127.0.0.1', port=9000)

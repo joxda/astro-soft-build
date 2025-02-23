@@ -46,7 +46,7 @@ git fetch
 git pull
 sudo cp -r files/html/* /var/www
 
-sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors  
+sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT
 sudo /usr/local/tahti/venv/bin/pip install --use-pep517 git+https://github.com/joxda/gps3.git git+https://github.com/knro/indiwebmanager
 
 

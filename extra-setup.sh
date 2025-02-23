@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig novnc websockify nginx jwt #certbot python3-certbot-nginx 
+sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig novnc websockify nginx #certbot python3-certbot-nginx 
 
 # this is specific (and it would be the wrong place)
 sudo cp helpers/tahti.rules /etc/udev/rules.d
@@ -52,3 +52,4 @@ sudo systemctl enable noVnc.service
 sudo systemctl enable gpspanel.service
 sudo systemctl enable astropanel.service
 sudo systemctl enable auth.service
+ 
