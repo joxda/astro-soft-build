@@ -36,7 +36,7 @@ def generate_jwt(username):
    token = jwt.encode({"username": username, "exp": expiration}, SECRET_KEY, algorithm="HS256")
    return token
 
-@app.route("/auth", methods=["GET", "POST"])
+@app.route("/auth/", methods=["GET", "POST"])
 def authenticate():
    if request.method == "GET":
       return render_template_string(LOGIN_FORM)
@@ -66,7 +66,7 @@ def validate():
    except jwt.InvalidTokenError:
        return "Invalid token", 401
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout/", methods=["POST"])
 def logout():
    token = request.cookies.get("jwt")
    if token:
