@@ -22,10 +22,10 @@ LOGIN_FORM = """
 <h2>Login</h2>
 <form method="POST">
 <label>Username:</label>
-<input type="text name="username" required><br><br>
+<input type="text" name="username" required><br><br>
 <label>Password:</label>
 <input type="password" name="password" required><br><br>
-button type"submit">Login</button>
+<button type"submit">Login</button>
 </form>
 </body>
 </html>
@@ -51,7 +51,7 @@ def authenticate():
        return response
    return "Unauthorized", 401
 
-@app.route("/validate", methods=["GET"])
+@app.route("/validate/", methods=["GET"])
 def validate():
    token = request.cookies.get("jwt")  # Read JWT from cookie
 
@@ -77,7 +77,7 @@ def logout():
 
 # Function to fetch and embed content
 def fetch_secure_content(path):
-   backend_url = f"http://127.0.0.1:8080{path}"  # NGINX proxy backend
+   backend_url = f"http://localhost:8080{path}"  # NGINX proxy backend
    token = request.cookies.get("jwt")
 
    if not token or token in revoked_tokens:
