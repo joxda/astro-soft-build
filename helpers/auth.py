@@ -96,42 +96,8 @@ def fetch_secure_content(path):
 # Secure1 Wrapped with Header
 @app.route("/secure/<path:subpath>")
 def secure(subpath):
-   content = fetch_secure_content(f"/{subpath}")
-   return render_template_string("""
-       <!DOCTYPE html>
-       <html lang="en">
-       <head>
-           <meta charset="UTF-8">
-           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-           <title>Secure 1</title>
-           <style>
-               body { font-family: Arial, sans-serif; text-align: center; }
-               .header { background: #333; color: white; padding: 10px; }
-               .logout-btn { background: red; color: white; padding: 5px 10px; border: none; cursor: pointer; }
-           </style>
-       </head>
-       <body>
-           <div class="header">
-               <h1>Secure 1</h1>
-               <button class="logout-btn" onclick="logout()">Logout</button>
-           </div>
-           <div class="content">
-               {{ content | safe }}
-           </div>
-           <script>
-               function logout() {
-                   fetch('/logout/', { method: 'POST', credentials: 'include' })
-                   .then(response => {
-                       if (response.ok) {
-                           alert("Logged out successfully.");
-                           window.location.href = "/login/";
-                       }
-                   });
-               }
-           </script>
-       </body>
-       </html>
-   """, content=content)
+   return fetch_secure_content(f"/{subpath}")
+   
 
 if __name__ == '__main__':
    app.run(host='127.0.0.1', port=9000)
