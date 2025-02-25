@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, make_response, render_template_string
+from flask import Flask, redirect, request, jsonify, make_response, render_template_string
 import pam
 import base64
 import datetime
@@ -20,6 +20,7 @@ LOGIN_FORM = """
 </head>
 <body>
 <h2>Login</h2>
+{{ text }}
 <form method="POST">
 <label>Username:</label>
 <input type="text" name="username" required><br><br>
@@ -39,39 +40,39 @@ def generate_jwt(username):
 @app.route("/auth/", methods=["GET", "POST"])
 def authenticate():
    if request.method == "GET":
-      return render_template_string(LOGIN_FORM)
+      text = request.args.get('t','')      
+      return render_template_string(LOGIN_FORM, text=text)
    username = request.form.get("username")
    password = request.form.get("password")
-
+   next_url = request.args.get('next','/')
    p = pam.pam()
    if p.authenticate(username, password):
        token = generate_jwt(username)
-       response = make_response(jsonify({"message": "Login successful"}))
+       response = make_response(redirect(next_url))
        response.set_cookie("jwt", token, httponly=True, secure=True)  # Store JWT in a cookie
        return response
-   return "Unauthorized", 401
+   return redirect("/login?t=Login%20failed")
 
 @app.route("/validate/", methods=["GET"])
 def validate():
    token = request.cookies.get("jwt")  # Read JWT from cookie
-
    if not token or token in revoked_tokens:
-       return "Unauthorized", 401
+      return "Unauthorized", 401
 
    try:
        decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
-       return jsonify({"username": decoded["username"]}), 200
+       return "OK", 200 #jsonify({"username": decoded["username"]}), 200
    except jwt.ExpiredSignatureError:
-       return "Token expired", 401
+      return "Token expired", 401
    except jwt.InvalidTokenError:
-       return "Invalid token", 401
+      return "Invalid token", 401
 
-@app.route("/logout/", methods=["POST"])
+@app.route("/logout/", methods=["GET","POST"])
 def logout():
    token = request.cookies.get("jwt")
    if token:
        revoked_tokens.add(token)  # Add token to blocklist
-   response = make_response(jsonify({"message": "Logged out"}))
+   response = make_response(redirect("/login?t=Logged%20out"))
    response.set_cookie("jwt", "", expires=0, httponly=True, secure=True)  # Clear cookie
    return response
 
