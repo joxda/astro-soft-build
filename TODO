@@ -9,9 +9,9 @@ rethink the login business since probably there should be more control about the
 ** make it so that the password has to be changed
 ** master script to run all (with optionalPHD2 argument) -- 
 
-* first use script -> set location etc. (also get relevant astrometry files)
+* first use script -> set location etc. (also get relevant astrometry files) -> create ssl certificate
 
-how about sequence managing per html??? pyindi?
+how about sequence managing per html??? 
 
 graphcis blub
 
@@ -24,12 +24,13 @@ nicer organized, clean up, keep repos so that update build can be done?
 add other licenses
 
 
-
-
 ** in some way a cmake for astropanel & gpspanel would be nice -- maybe put relevant files in subdirs and then see the astroberry-wui cmake
 
 
-https://tahti.local/desktop/vnc.html?autoconnect=true in iframe with logout
-
 *** ufw? allow ssh and desktop only from local network? indi-server at 7624
 
+check pyclient only listens to 127.0.0.1 !! check it is installed!?
+
+
+astrometry files in astroberry...?!?
+/home/astroberry/.local/share/kstars/astrometry
