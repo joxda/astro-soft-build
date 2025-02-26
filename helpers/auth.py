@@ -51,7 +51,7 @@ def authenticate():
        response = make_response(redirect(next_url))
        response.set_cookie("jwt", token, httponly=True, secure=True)  # Store JWT in a cookie
        return response
-   return redirect("/login?t=Login%20failed")
+   return redirect("/?t=Login%20failed")
 
 @app.route("/validate/", methods=["GET"])
 def validate():
@@ -72,7 +72,7 @@ def logout():
    token = request.cookies.get("jwt")
    if token:
        revoked_tokens.add(token)  # Add token to blocklist
-   response = make_response(redirect("/login?t=Logged%20out"))
+   response = make_response(redirect("/?t=Logged%20out"))
    response.set_cookie("jwt", "", expires=0, httponly=True, secure=True)  # Clear cookie
    return response
 
