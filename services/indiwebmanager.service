@@ -2,7 +2,7 @@
 After=multi-user.target
 
 Type=idle
-User=tahti
+User=root
 ExecStart=sudo /usr/local/tahti/venv/bin/indi-web -v -H 127.0.0.1
 Restart=always
 Environment="PATH=/usr/local/tahti/venv/bin"

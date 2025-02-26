@@ -29,6 +29,7 @@ add other licenses
 ** in some way a cmake for astropanel & gpspanel would be nice -- maybe put relevant files in subdirs and then see the astroberry-wui cmake
 
 
-https://tahti.local/desktop/vnc.html?autoconnect=true
+https://tahti.local/desktop/vnc.html?autoconnect=true in iframe with logout
 
 *** ufw? allow ssh and desktop only from local network? indi-server at 7624
+

@@ -4,8 +4,7 @@ export CFLAGS="-march=native -w -Wno-psabi -D_FILE_OFFSET_BITS=64"
 export CXXFLAGS="-march=native -w -Wno-psabi -D_FILE_OFFSET_BITS=64"
 
 CHECKOUT=0
-# you can set custom BUILD_DIR
-BUILD_DIR=${BUILD_DIR:-$HOME}
+BUILD_DIR="/usr/local/tahti/"
 ROOTDIR="$BUILD_DIR/repos"
 
 JOBS=$(grep -c ^processor /proc/cpuinfo)

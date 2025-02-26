@@ -4,7 +4,7 @@ After=multi-user.target gpsd.socket
 
 [Service]
 Type=idle
-User=tahti
+User=root
 ExecStart=/usr/local/tahti/venv/bin/python /var/www/astropanel/astropanel.py
 Restart=always
 RestartSec=10

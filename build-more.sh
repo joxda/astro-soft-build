@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# you can set custom BUILD_DIR
-BUILD_DIR=${BUILD_DIR:-$HOME}
+BUILD_DIR="/usr/local/tahti/"
 ROOTDIR="$BUILD_DIR/repos"
 
 [ ! -d "$ROOTDIR" ] && { mkdir -p "$ROOTDIR"; }

@@ -9,8 +9,7 @@ INDI_3RD_COMMIT="v2.1.2"
 STELLAR_COMMIT="157092d6f843fb987818bd61f0b14b440eca3146"
 KSTARS_COMMIT="origin/stable-3.7.5"
 
-# you can set custom BUILD_DIR
-BUILD_DIR=${BUILD_DIR:-$HOME}
+BUILD_DIR="/usr/local/tahti/"
 ROOTDIR="$BUILD_DIR/repos"
 
 JOBS=$(grep -c ^processor /proc/cpuinfo)
