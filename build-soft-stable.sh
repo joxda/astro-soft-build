@@ -21,7 +21,7 @@ then
 	JOBS=2
 fi
 
-[ ! -d "$ROOTDIR" ] && mkdir -p "$ROOTDIR"
+[ ! -d "$ROOTDIR" ] && sudo mkdir -p "$ROOTDIR" && sudo chown tahti:tahti $ROOTDIR && sudo chown tahti:tahti $BUILD_DIR 
 cd "$ROOTDIR"
 
 [ ! -d "libXISF" ] && { git clone https://gitea.nouspiro.space/nou/libXISF.git || { echo "Failed to clone LibXISF"; exit 1; } }

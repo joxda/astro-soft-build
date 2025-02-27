@@ -1,6 +1,3 @@
-
-rethink the login business since probably there should be more control about the validity time and the username / password not stored to the browser
- -> logout thing
  
 *** add logout in many places, add link to the autologin noVnc, help page?
 *** landing page (uncertain location)
