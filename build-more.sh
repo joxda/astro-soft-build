@@ -43,6 +43,6 @@ git pull
 sudo cp -r files/html/* /var/www/html/
 
 sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT
-sudo /usr/local/tahti/venv/bin/pip install --use-pep517 git+https://github.com/joxda/gps3.git git+https://github.com/knro/indiwebmanager
+sudo /usr/local/tahti/venv/bin/pip install --use-pep517 git+https://github.com/joxda/gps3.git git+https://github.com/knro/indiwebmanager.git git+https://github.com/joxda/pyINDI.git
 
 
