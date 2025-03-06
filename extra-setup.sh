@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig novnc websockify nginx #certbot python3-certbot-nginx 
+sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig novnc websockify nginx ufw#certbot python3-certbot-nginx 
 
 # onstep and rules are specific (and it would be the wrong place)
 sudo cp helpers/tahti.rules /etc/udev/rules.d
@@ -45,5 +45,20 @@ sudo systemctl enable gpspanel.service
 sudo systemctl enable astropanel.service
 sudo systemctl enable pointing.service
 sudo systemctl enable auth.service
-sudo systemctl enable pyclient.service
- 
+sudo systemctl enable pyclient.#!/bin/bash
+
+
+# Enable UFW (if not enabled already)
+ufw enable
+# Allow INDI server port (default 7624)
+ufw allow 7624/tcp
+# Allow SSH (optional, if you need remote access)
+ufw allow ssh
+# Default firewall settings: deny incoming, allow outgoing
+ufw default deny incoming
+ufw default allow outgoing
+
+
+
+
+
