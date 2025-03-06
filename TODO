@@ -34,12 +34,7 @@ add other licenses
 
 
 ** in some way a cmake for astropanel & gpspanel would be nice -- maybe put relevant files in subdirs and then see the astroberry-wui cmake
-
-
-
-check pyclient only listens to 127.0.0.1 !! check it is installed!?
-in webclient.py -> self.app.listen(self.port)
-add address="127.0.0.1")
+** or unified repo for these and the webui
 
 astrometry files in astroberry...?!?
 /home/astroberry/.local/share/kstars/astrometry
