@@ -6,16 +6,6 @@ ROOTDIR="$BUILD_DIR/repos"
 [ ! -d "$ROOTDIR" ] && { sudo mkdir -p "$ROOTDIR" && sudo chown tahti:tahti $BUILD_DIR && sudo chown tahti:tahti $ROOT_DIR; }
 cd "$ROOTDIR"
 
-PYINDI_COMMIT="v2.1.2"
-
-[ ! -d "/usr/local/tahti/venv" ] && { sudo python -m venv /usr/local/tahti/venv; }
-
-cd "$ROOTDIR"
-[ ! -d "pyindi-client" ] && { git clone https://github.com/indilib/pyindi-client.git || { echo "Failed to clone pyindi-client"; exit 1; } }
-cd pyindi-client
-git fetch origin
-git switch -d --discard-changes $PYINDI_COMMIT
-sudo /usr/local/tahti/venv/bin/python setup.py install || { echo "PYINDI installation failed"; exit 1; }
 
 cd "$ROOTDIR"
 [ ! -d "gpspanel" ] && { git clone https://github.com/joxda/gpspanel.git || { echo "Failed to clone gpspanel"; exit 1; } }
@@ -41,8 +31,5 @@ cd astroberry-server-wui
 git fetch
 git pull
 sudo cp -r files/html/* /var/www/html/
-
-sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT
-sudo /usr/local/tahti/venv/bin/pip install --use-pep517 git+https://github.com/joxda/gps3.git git+https://github.com/knro/indiwebmanager.git git+https://github.com/joxda/pyINDI.git
 
 
