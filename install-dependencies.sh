@@ -10,7 +10,7 @@ sudo apt -y install libnova-dev libcfitsio-dev libusb-1.0-0-dev zlib1g-dev libgs
         wcslib-dev libqt5websockets5-dev xplanet xplanet-images qt5keychain-dev libsecret-1-dev breeze-icon-theme qml-module-qtquick-controls \
         pkg-config libev-dev libqt5datavisualization5-dev libzmq3-dev
 
-sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig novnc websockify nginx lazarus-ide ufw
+sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig novnc websockify nginx ufw # lazarus-ide (astap)
 
 [ "$1" == "phd2" ] && sudo apt -y install libwxgtk3.2-dev
 
