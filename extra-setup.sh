@@ -1,7 +1,5 @@
 #!/bin/bash
-
-sudo apt -y install emacs libopencv-dev python3-opencv gpredict gpsd gpsd-clients python3-gps pps-tools ntp dnsutils swig novnc websockify nginx ufw#certbot python3-certbot-nginx 
-
+ 
 # onstep and rules are specific (and it would be the wrong place)
 sudo cp helpers/tahti.rules /etc/udev/rules.d
 
@@ -15,17 +13,19 @@ sudo cp configs/tahti.*nginx.config /etc/nginx/sites-available
 
 # update
 #sudo cp /var/www/html/panels.html /var/www/html/index.html ## different one or set in the nginx config
-sudo cp /usr/share/novnc/vnc.html /usr/share/novnc/index.html
+#sudo cp /usr/share/novnc/vnc.html /usr/share/novnc/index.html
 
 sudo cp helpers/* /usr/local/tahti
 sudo chmod 755 /usr/local/tahti/*.py
-sudo chmod 755 /usr/local/tahti/*sh
+sudo chmod 755 /usr/local/tahti/*.sh
 
 
 # gps related
 # use conf file instead
-sudo cp configs/virtualgps.conf /usr/local/tahti/
+[ ! -f /usr/local/tahti/virtualgps.conf ] && { sudo cp configs/virtualgps.conf /usr/local/tahti/; }
 
+
+# stuff below should be mostly more like a one time setup and not run with every update?
 sudo systemctl disable hciuart
 
 sudo raspi-config nonint do_vnc 0 
