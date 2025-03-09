@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export CFLAGS="-march=native -w -Wno-psabi -D_FILE_OFFSET_BITS=64"
-export CXXFLAGS="-march=native -w -Wno-psabi -D_FILE_OFFSET_BITS=64"
+#export CFLAGS="-march=native -w -Wno-psabi -D_FILE_OFFSET_BITS=64"
+#export CXXFLAGS="-march=native -w -Wno-psabi -D_FILE_OFFSET_BITS=64"
 
 LIBXISF_COMMIT="v0.2.13"
 INDI_COMMIT="v2.1.2"
