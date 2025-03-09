@@ -27,7 +27,7 @@ cd "$ROOTDIR"
 [ ! -d "libXISF" ] && { git clone https://github.com/joxda/libXISF.git || { echo "Failed to clone LibXISF"; exit 1; } }
 cd libXISF
 git fetch origin
-git switch -d --discard-changes $LIBXISF_COMMIT
+#git switch -d --discard-changes $LIBXISF_COMMIT
 [ ! -d ../build-libXISF ] && { cmake -B ../build-libXISF ../libXISF -DCMAKE_BUILD_TYPE=Release || { echo "LibXISF configuration failed"; exit 1; } }
 cd ../build-libXISF
 make -j $JOBS || { echo "LibXISF compilation failed"; exit 1; }
