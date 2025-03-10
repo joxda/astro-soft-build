@@ -35,8 +35,8 @@ git pull
 "${SUDO[@]}" cp	-r ./* /var/www/astropanel/
 
 cd "$ROOTDIR"
-[ ! -d "astroberry-server-wui" ] && { git clone -b j3 --single-branch https://github.com/joxda/astroberry-server-wui.git || { echo "Failed to clone astroberry-server-wui"; exit 1; } }
-cd astroberry-server-wui
+[ ! -d "tahtiOS-webUI" ] && { git clone -b j3 --single-branch https://github.com/joxda/tahtiOS-webUI.git || { echo "Failed to clone tahtiOS-webUI"; exit 1; } }
+cd tahtiOS-webUI
 git fetch
 git pull
 "${SUDO[@]}" cp -r files/html/* /var/www/html/
