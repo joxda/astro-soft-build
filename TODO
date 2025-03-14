@@ -2,6 +2,10 @@
 ** wifi hotspot thing see astrooberry
 * wizard to set up?
 
+use github action stuff to find tags. 
+"stable" metatag or define individual or undefined
+if defined in build script go back to that commit
+
 ** icons on desktop
 
 ** auto start and connect to simulation?
