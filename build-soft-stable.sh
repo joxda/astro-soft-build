@@ -55,8 +55,8 @@ sudo make install || { echo "INDI lib installation failed"; exit 1; }
 
 [ ! -d ../build-indi-3rdparty ] && { cmake -B ../build-indi-3rdparty ../indi-3rdparty -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release || { echo "INDI lib configuration failed"; exit 1; } }
 cd ../build-indi-3rdparty
-make -j $JOBS || { echo "INDI 3rd-party compilation failed"; exit 1; }
-sudo make install || { echo "INDI lib installation failed"; exit 1; }
+make -j $JOBS || true; # { echo "INDI 3rd-party compilation failed"; exit 1; }
+sudo make install || true; #{ echo "INDI lib installation failed"; exit 1; }
 
 cd "$ROOTDIR"
 [ ! -d "stellarsolver" ] && { git clone https://github.com/rlancaste/stellarsolver.git || { echo "Failed to clone stellarsolver"; exit 1; } }
