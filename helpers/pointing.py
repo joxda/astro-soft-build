@@ -20,7 +20,7 @@ class IndiClient(PyIndi.BaseClient):
                for prop in device.getPropertoes():
                    if "EQUATORIAL_EOD_COORD" in prop.name:
                        self.telescope_device = device_name
-                       printg(f"Using telescope: {self.telescope_device}")
+                       print(f"Using telescope: {self.telescope_device}")
                        return True
        print("No telescope found")
        return False

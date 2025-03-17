@@ -13,8 +13,10 @@ PYINDI_COMMIT="v2.1.2"
 cd "$ROOTDIR"
 [ ! -d "pyindi-client" ] && { git clone https://github.com/indilib/pyindi-client.git || { echo "Failed to clone pyindi-client"; exit 1; } }
 cd pyindi-client
-git fetch origin
-git switch -d --discard-changes $PYINDI_COMMIT
+git pull origin
+if [ -n $PYINDI_COMMIT && $PYINDI_COMMIT != "master" ]; then
+    git switch -d --discard-changes $PYINDI_COMMIT
+fi
 sudo /usr/local/tahti/venv/bin/python setup.py install || { echo "PYINDI installation failed"; exit 1; }
 
 sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT

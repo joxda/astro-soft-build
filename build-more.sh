@@ -6,7 +6,7 @@ ROOTDIR="$BUILD_DIR/repos"
 [ ! -d "$ROOTDIR" ] && { sudo mkdir -p "$ROOTDIR" && sudo chown tahti:tahti $BUILD_DIR && sudo chown tahti:tahti $ROOT_DIR; }
 cd "$ROOTDIR"
 
-
+#TAGS/COMMITS!!
 cd "$ROOTDIR"
 [ ! -d "gpspanel" ] && { git clone https://github.com/joxda/gpspanel.git || { echo "Failed to clone gpspanel"; exit 1; } }
 cd gpspanel
