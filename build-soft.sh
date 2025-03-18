@@ -61,13 +61,13 @@ if [ -n $INDI_3RD_COMMIT ] && [ $INDI_3RD_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
-[ ! -d ../build-indi-lib ] && { cmake -B ../build-indi-lib ../indi-3rdparty -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_LIBS=1 -DCMAKE_BUILD_TYPE=Release || { echo "INDI lib configuration failed"; exit 1; } }
-cd ../build-indi-lib
+#[ ! -d ../build-indi-lib ] && { cmake -B ../build-indi-lib ../indi-3rdparty -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_LIBS=1 -DCMAKE_BUILD_TYPE=Release || { echo "INDI lib configuration failed"; exit 1; } }
+#cd ../build-indi-lib
 #make -j $JOBS || { echo "INDI lib compilation failed"; exit 1; }
 #sudo make install || { echo "INDI lib installation failed"; exit 1; }
 
-[ ! -d ../build-indi-3rdparty ] && { cmake -B ../build-indi-3rdparty ../indi-3rdparty -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release || { echo "INDI lib configuration failed"; exit 1; } }
-cd ../build-indi-3rdparty
+#[ ! -d ../build-indi-3rdparty ] && { cmake -B ../build-indi-3rdparty ../indi-3rdparty -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release || { echo "INDI lib configuration failed"; exit 1; } }
+#cd ../build-indi-3rdparty
 #make -j $JOBS || { echo "INDI 3rd-party compilation failed"; exit 1; }
 #sudo make install || { echo "INDI lib installation failed"; exit 1; }
 
