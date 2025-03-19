@@ -25,7 +25,7 @@ fi
 [ ! -d "$ROOTDIR" ] && sudo mkdir -p "$ROOTDIR" && sudo chown tahti:tahti $ROOTDIR && sudo chown tahti:tahti $BUILD_DIR 
 cd "$ROOTDIR"
 
-[ ! -d "libXISF" ] && { git clone https://github.com/joxda/libXISF.git || { echo "Failed to clone LibXISF"; exit 1; } }
+[ ! -d "libXISF" ] && { git clone --depth 1 https://github.com/joxda/libXISF.git || { echo "Failed to clone LibXISF"; exit 1; } }
 cd libXISF
 if [ -n $LIBXISF_COMMIT ] && [ $LIBXISF_COMMIT != "master" ]; then
   git fetch origin
@@ -39,7 +39,7 @@ make -j $JOBS || { echo "LibXISF compilation failed"; exit 1; }
 sudo make install || { echo "LibXISF installation failed"; exit 1; }
 
 cd "$ROOTDIR"
-[ ! -d "indi" ] && { git clone https://github.com/indilib/indi.git || { echo "Failed to clone indi"; exit 1; } }
+[ ! -d "indi" ] && { git clone --depth 1 https://github.com/indilib/indi.git || { echo "Failed to clone indi"; exit 1; } }
 cd indi
 if [ -n $INDI_COMMIT ] && [ $INDI_COMMIT != "master" ]; then
 	git fetch origin
@@ -47,13 +47,13 @@ if [ -n $INDI_COMMIT ] && [ $INDI_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
-[ ! -d ../build-indi ] && { cmake -B ../build-indi ../indi -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release || { echo "INDI configuration failed"; exit 1; } }
+[ ! -d ../build-indi ] && { cmake -G Ninja -B ../build-indi ../indi -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DINDI_BUILD_STATIC=OFF -DINDI_BUILD_CLIENT=OFF || { echo "INDI configuration failed"; exit 1; } }
 cd ../build-indi
-make -j $JOBS || { echo "INDI compilation failed"; exit 1; }
-sudo make install || { echo "INDI installation failed"; exit 1; }
+ninja -j $JOBS || { echo "INDI compilation failed"; exit 1; }
+sudo ninja install || { echo "INDI installation failed"; exit 1; }
 
 cd "$ROOTDIR"
-[ ! -d "indi-3rdparty" ] && { git clone https://github.com/indilib/indi-3rdparty.git || { echo "Failed to clone indi 3rdparty"; exit 1; } }
+[ ! -d "indi-3rdparty" ] && { git clone --depth 1 https://github.com/indilib/indi-3rdparty.git || { echo "Failed to clone indi 3rdparty"; exit 1; } }
 cd indi-3rdparty
 if [ -n $INDI_3RD_COMMIT ] && [ $INDI_3RD_COMMIT != "master" ]; then
 	git fetch origin
@@ -72,7 +72,7 @@ fi
 #sudo make install || { echo "INDI lib installation failed"; exit 1; }
 
 cd "$ROOTDIR"
-[ ! -d "stellarsolver" ] && { git clone https://github.com/rlancaste/stellarsolver.git || { echo "Failed to clone stellarsolver"; exit 1; } }
+[ ! -d "stellarsolver" ] && { git clone --depth 1 https://github.com/rlancaste/stellarsolver.git || { echo "Failed to clone stellarsolver"; exit 1; } }
 cd stellarsolver
 if [ -n $STELLAR_COMMIT ] && [ $STELLAR_COMMIT != "master" ]; then
 	git fetch origin
@@ -80,13 +80,13 @@ if [ -n $STELLAR_COMMIT ] && [ $STELLAR_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
-[ ! -d ../build-stellarsolver ] && { cmake -B ../build-stellarsolver ../stellarsolver -DCMAKE_BUILD_TYPE=Release || { echo "Stellarsolfer configuration failed"; exit 1; } }
+[ ! -d ../build-stellarsolver ] && { cmake -G Ninja -B ../build-stellarsolver ../stellarsolver -DCMAKE_BUILD_TYPE=Release || { echo "Stellarsolfer configuration failed"; exit 1; } }
 cd ../build-stellarsolver
-make -j $JOBS || { echo "Stellarsolver compilation failed"; exit 1; }
-sudo make install || { echo "Stellarsolver installation failed"; exit 1; }
+ninja -j $JOBS || { echo "Stellarsolver compilation failed"; exit 1; }
+sudo ninja install || { echo "Stellarsolver installation failed"; exit 1; }
 
 cd "$ROOTDIR"
-[ ! -d "kstars" ] && { git clone https://invent.kde.org/education/kstars.git || { echo "Failed to clone KStars"; exit 1; } }
+[ ! -d "kstars" ] && { git clone --depth 1 https://invent.kde.org/education/kstars.git || { echo "Failed to clone KStars"; exit 1; } }
 cd kstars
 if [ -n $KSTARS_COMMIT ] && [ $KSTARS_COMMIT != "master" ]; then
 	git fetch origin
@@ -94,10 +94,10 @@ if [ -n $KSTARS_COMMIT ] && [ $KSTARS_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
-[ ! -d ../build-kstars ] && { cmake -B ../build-kstars -DBUILD_TESTING=Off ../kstars -DCMAKE_BUILD_TYPE=Release || { echo "KStars configuration failed"; exit 1; } }
+[ ! -d ../build-kstars ] && { cmake -G Ninja -B ../build-kstars -DBUILD_TESTING=Off -DBUILD_DOC=Off ../kstars -DCMAKE_BUILD_TYPE=Release || { echo "KStars configuration failed"; exit 1; } }
 cd ../build-kstars
-make -j $JOBS || { echo "KStars compilation failed"; exit 1; }
-sudo make install || { echo "KStars installation failed"; exit 1; }
+ninja -j $JOBS || { echo "KStars compilation failed"; exit 1; }
+sudo ninja install || { echo "KStars installation failed"; exit 1; }
 
 sudo ldconfig
 
@@ -114,8 +114,8 @@ if [ -n $PHD2_COMMIT ] && [ $PHD2_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
-[ ! -d ../build-phd2 ] && cmake -B ../build-phd2 -DCMAKE_BUILD_TYPE=Release || { echo "PHD2 configuration failed"; exit 1; }
+[ ! -d ../build-phd2 ] && cmake -G Ninja -B ../build-phd2 -DCMAKE_BUILD_TYPE=Release || { echo "PHD2 configuration failed"; exit 1; }
 cd ../build-phd2
-make -j $JOBS || { echo "PHD2 compilation failed"; exit 1; }
-sudo make install
+ninja -j $JOBS || { echo "PHD2 compilation failed"; exit 1; }
+sudo ninja install
 
