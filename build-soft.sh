@@ -29,6 +29,7 @@ cd "$ROOTDIR"
 cd libXISF
 if [ -n $LIBXISF_COMMIT ] && [ $LIBXISF_COMMIT != "master" ]; then
   git fetch origin
+  git fetch --tags
   git switch -d --discard-changes $LIBXISF_COMMIT
 else
 	git pull origin
@@ -43,11 +44,12 @@ cd "$ROOTDIR"
 cd indi
 if [ -n $INDI_COMMIT ] && [ $INDI_COMMIT != "master" ]; then
 	git fetch origin
+    git fetch --tags
 	git switch -d --discard-changes $INDI_COMMIT
 else
 	git pull origin
 fi
-[ ! -d ../build-indi ] && { cmake -G Ninja -B ../build-indi ../indi -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DINDI_BUILD_STATIC=OFF -DINDI_BUILD_CLIENT=OFF || { echo "INDI configuration failed"; exit 1; } }
+[ ! -d ../build-indi ] && { cmake -G Ninja -B ../build-indi ../indi -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DINDI_BUILD_STATIC=OFF || { echo "INDI configuration failed"; exit 1; } }
 cd ../build-indi
 ninja -j $JOBS || { echo "INDI compilation failed"; exit 1; }
 sudo ninja install || { echo "INDI installation failed"; exit 1; }
@@ -57,6 +59,7 @@ cd "$ROOTDIR"
 cd indi-3rdparty
 if [ -n $INDI_3RD_COMMIT ] && [ $INDI_3RD_COMMIT != "master" ]; then
 	git fetch origin
+    git fetch --tags
 	git switch -d --discard-changes $INDI_3RD_COMMIT
 else
 	git pull origin
@@ -76,6 +79,7 @@ cd "$ROOTDIR"
 cd stellarsolver
 if [ -n $STELLAR_COMMIT ] && [ $STELLAR_COMMIT != "master" ]; then
 	git fetch origin
+    git fetch --tags
 	git switch -d --discard-changes $STELLAR_COMMIT
 else
 	git pull origin
@@ -90,6 +94,7 @@ cd "$ROOTDIR"
 cd kstars
 if [ -n $KSTARS_COMMIT ] && [ $KSTARS_COMMIT != "master" ]; then
 	git fetch origin
+    git fetch --tags
 	git switch -d --discard-changes $KSTARS_COMMIT
 else
 	git pull origin
@@ -110,6 +115,7 @@ cd "$ROOTDIR"
 cd phd2
 if [ -n $PHD2_COMMIT ] && [ $PHD2_COMMIT != "master" ]; then
 	git fetch origin
+    git fetch --tags
 	git switch -d --discard-changes $PHD2_COMMIT
 else
 	git pull origin
