@@ -49,21 +49,21 @@ if [ -n $INDI_COMMIT ] && [ $INDI_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
-[ ! -d ../build-indi ] && { cmake -G Ninja -B ../build-indi ../indi -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DINDI_BUILD_STATIC=OFF || { echo "INDI configuration failed"; exit 1; } }
+[ ! -d ../build-indi ] && { cmake -G Ninja -B ../build-indi ../indi -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release || { echo "INDI configuration failed"; exit 1; } }
 cd ../build-indi
 ninja -j $JOBS || { echo "INDI compilation failed"; exit 1; }
 sudo ninja install || { echo "INDI installation failed"; exit 1; }
 
-cd "$ROOTDIR"
-[ ! -d "indi-3rdparty" ] && { git clone --depth 1 https://github.com/indilib/indi-3rdparty.git || { echo "Failed to clone indi 3rdparty"; exit 1; } }
-cd indi-3rdparty
-if [ -n $INDI_3RD_COMMIT ] && [ $INDI_3RD_COMMIT != "master" ]; then
-	git fetch origin
-    git fetch --tags
-	git switch -d --discard-changes $INDI_3RD_COMMIT
-else
-	git pull origin
-fi
+#cd "$ROOTDIR"
+#[ ! -d "indi-3rdparty" ] && { git clone --depth 1 https://github.com/indilib/indi-3rdparty.git || { echo "Failed to clone indi 3rdparty"; exit 1; } }
+#cd indi-3rdparty
+#if [ -n $INDI_3RD_COMMIT ] && [ $INDI_3RD_COMMIT != "master" ]; then
+#	git fetch origin
+#    git fetch --tags
+#	git switch -d --discard-changes $INDI_3RD_COMMIT
+#else
+#	git pull origin
+#fi
 #[ ! -d ../build-indi-lib ] && { cmake -B ../build-indi-lib ../indi-3rdparty -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_LIBS=1 -DCMAKE_BUILD_TYPE=Release || { echo "INDI lib configuration failed"; exit 1; } }
 #cd ../build-indi-lib
 #make -j $JOBS || { echo "INDI lib compilation failed"; exit 1; }
@@ -99,7 +99,7 @@ if [ -n $KSTARS_COMMIT ] && [ $KSTARS_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
-[ ! -d ../build-kstars ] && { cmake -G Ninja -B ../build-kstars -DBUILD_TESTING=Off -DBUILD_DOC=Off ../kstars -DCMAKE_BUILD_TYPE=Release || { echo "KStars configuration failed"; exit 1; } }
+[ ! -d ../build-kstars ] && { cmake -G Ninja -B ../build-kstars -DBUILD_TESTING=OFF -DBUILD_DOC=OFF ../kstars -DCMAKE_BUILD_TYPE=Release || { echo "KStars configuration failed"; exit 1; } }
 cd ../build-kstars
 ninja -j $JOBS || { echo "KStars compilation failed"; exit 1; }
 sudo ninja install || { echo "KStars installation failed"; exit 1; }
