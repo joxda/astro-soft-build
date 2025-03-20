@@ -45,7 +45,7 @@ sudo systemctl enable gpspanel.service
 sudo systemctl enable astropanel.service
 sudo systemctl enable pointing.service
 sudo systemctl enable auth.service
-sudo systemctl enable pyclient.#!/bin/bash
+sudo systemctl enable pyclient.service
 
 
 # Enable UFW (if not enabled already)
