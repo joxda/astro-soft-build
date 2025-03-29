@@ -32,6 +32,7 @@ sudo raspi-config nonint do_vnc 0
 sudo raspi-config nonint do_serial_cons 1
 sudo raspi-config nonint do_serial_hw 0
 
+sudo mkdir -p /etc/wayvnc/
 sudo cp configs/wayvnc.config /etc/wayvnc/config
 
 sudo cp services/*.service /etc/systemd/system/
