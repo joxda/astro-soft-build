@@ -48,7 +48,7 @@ sudo systemctl enable pointing.service
 sudo systemctl enable auth.service
 sudo systemctl enable pyclient.service
 
-
+# do in first boot service script?
 # Enable UFW (if not enabled already)
 #ufw enable
 # Allow INDI server port (default 7624)
