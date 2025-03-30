@@ -52,14 +52,12 @@ sudo systemctl enable pyclient.service
 # Enable UFW (if not enabled already)
 #ufw enable
 # Allow INDI server port (default 7624)
-#ufw allow 7624/tcp
+ufw allow 7624/tcp
 # Allow SSH (optional, if you need remote access)
-#ufw allow ssh
+ufw allow ssh
 # Default firewall settings: deny incoming, allow outgoing
-#ufw default deny incoming
-#ufw default allow outgoing
+ufw default deny incoming
+ufw default allow outgoing
 
-
-
-
+ufw enable --force
 
