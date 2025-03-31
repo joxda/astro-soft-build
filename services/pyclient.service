@@ -1,6 +1,7 @@
-[Service]
+[Unit]
 After=multi-user.target
 
+[Service]
 Type=idle
 User=root
 ExecStart=sudo /usr/local/tahti/venv/bin/python /usr/local/tahti/pyclient.py

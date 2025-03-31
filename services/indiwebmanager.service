@@ -1,12 +1,15 @@
-[Service]
+[Unit]
 After=multi-user.target
 
+[Service]
 Type=idle
 User=root
 ExecStart=sudo /usr/local/tahti/venv/bin/indi-web -v -H 127.0.0.1
 Restart=always
 Environment="PATH=/usr/local/tahti/venv/bin"
 RestartSec=10
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
