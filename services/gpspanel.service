@@ -3,8 +3,8 @@ Description=GPS Panel
 After=multi-user.target gpsd.socket
 
 [Service]
-Type=idle
-User=root
+Type=simple
+User=tahti
 ExecStart=/usr/local/tahti/venv/bin/python /var/www/gpspanel/gpspanel.py
 Restart=always
 RestartSec=10

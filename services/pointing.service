@@ -2,8 +2,8 @@
 After=multi-user.target
 
 [Service]
-Type=idle
-User=root
+Type=simple
+User=tahti
 ExecStart=/usr/local/tahti/venv/bin/python /usr/local/tahti/pointing.py
 Restart=always
 Environment="PATH=/usr/local/tahti/venv/bin"

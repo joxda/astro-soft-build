@@ -38,15 +38,15 @@ sudo cp configs/wayvnc.config /etc/wayvnc/config
 sudo cp services/*.service /etc/systemd/system/
 
 sudo systemctl daemon-reload
-sudo systemctl enable indiwebmanager.service
+sudo systemctl enable indiwebmanager
 sudo systemctl enable gpsd
-sudo systemctl enable gps-fallback.service
-sudo systemctl enable noVnc.service
-sudo systemctl enable gpspanel.service
-sudo systemctl enable astropanel.service
-sudo systemctl enable pointing.service
-sudo systemctl enable auth.service
-sudo systemctl enable pyclient.service
+sudo systemctl enable gps-fallback
+sudo systemctl enable noVnc
+sudo systemctl enable gpspanel
+sudo systemctl enable astropanel
+sudo systemctl enable pointing
+sudo systemctl enable auth
+sudo systemctl enable pyclient
 
 # do in first boot service script?
 # Enable UFW (if not enabled already)
