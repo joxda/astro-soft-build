@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 # onstep and rules are specific (and it would be the wrong place)
 sudo cp helpers/tahti.rules /etc/udev/rules.d
 
@@ -19,20 +19,18 @@ sudo cp helpers/* /usr/local/tahti
 sudo chmod 755 /usr/local/tahti/*.py
 sudo chmod 755 /usr/local/tahti/*.sh
 
-
 # gps related
 # use conf file instead
 [ ! -f /usr/local/tahti/virtualgps.conf ] && { sudo cp configs/virtualgps.conf /usr/local/tahti/; }
 
-
 # stuff below should be mostly more like a one time setup and not run with every update?
 sudo systemctl disable hciuart
 
-sudo raspi-config nonint do_vnc 0 
+sudo raspi-config nonint do_vnc 0
 sudo raspi-config nonint do_serial_cons 1
 sudo raspi-config nonint do_serial_hw 0
 
-sudo mkdir -p /etc/wayvnc/
+#sudo mkdir -p /etc/wayvnc/
 sudo cp configs/wayvnc.config /etc/wayvnc/config
 
 sudo cp services/*.service /etc/systemd/system/
@@ -60,4 +58,3 @@ sudo systemctl enable pyclient
 #ufw default allow outgoing
 
 #ufw enable --force
-
