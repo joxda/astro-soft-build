@@ -1,9 +1,9 @@
 [Unit]
 Description="noVNC Server for WayVNC"
-After=network.target
+After=network.target #vncserver-x11-serviced.service
 
 [Service]
-ExecStart=/usr/bin/websockify --web /usr/share/novnc/  --cert /etc/selfsigned/self.pem --key /etc/selfsigned/key.pem 127.0.0.1:6080 127.0.0.1:5900
+ExecStart=/usr/bin/websockify --web /usr/share/noVNC/  --cert /usr/local/tahti/self.pem --key /usr/local/tahti/key.pem 127.0.0.1:6080 127.0.0.1:5900
 Restart=on-failure
 RestartSec=3
 ExecStop=/usr/bin/pkill websockify
