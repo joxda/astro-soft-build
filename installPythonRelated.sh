@@ -8,7 +8,7 @@ cd "$ROOTDIR"
 
 PYINDI_COMMIT="v2.1.2"
 
-[ ! -d "/usr/local/tahti/venv" ] && { sudo python -m venv /usr/local/tahti/venv; }
+[ ! -d "/usr/local/tahti/venv" ] && { sudo python -m venv /usr/local/tahti/venv --system-site-packages; }
 
 cd "$ROOTDIR"
 [ ! -d "pyindi-client" ] && { git clone https://github.com/indilib/pyindi-client.git || {
