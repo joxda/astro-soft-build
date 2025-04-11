@@ -1,4 +1,3 @@
-import base64
 import datetime
 import os
 
@@ -7,7 +6,6 @@ import pam
 import requests
 from flask import (
     Flask,
-    jsonify,
     make_response,
     redirect,
     render_template_string,
@@ -65,7 +63,26 @@ def authenticate():
             "jwt", token, httponly=True, secure=True
         )  # Store JWT in a cookie
         return response
-    return redirect("/?t=Login&bnsp;failed")
+    return redirect("/?t=Login failed")
+
+
+@app.route("/auth2/", methods=["GET", "POST"])
+def authenticate2():
+    if request.method == "GET":
+        text = request.args.get("t", "")
+        return render_template_string(LOGIN_FORM, text=text)
+    username = request.form.get("username")
+    password = request.form.get("password")
+    next_url = request.args.get("next", "/secure/index.html")
+    p = pam.pam()
+    if p.authenticate(username, password):
+        token = generate_jwt(username)
+        response = make_response(redirect(next_url))
+        response.set_cookie(
+            "jwt", token, httponly=True, secure=False
+        )  # Store JWT in a cookie
+        return response
+    return redirect("/?t=Login failed")
 
 
 @app.route("/validate/", methods=["GET"])
