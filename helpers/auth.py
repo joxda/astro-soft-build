@@ -105,7 +105,7 @@ def logout():
     token = request.cookies.get("jwt")
     if token:
         revoked_tokens.add(token)  # Add token to blocklist
-    response = make_response(redirect("/?t=Logged%20out"))
+    response = make_response(redirect("/?t=Logged out"))
     response.set_cookie(
         "jwt", "", expires=0, httponly=True, secure=True
     )  # Clear cookie
