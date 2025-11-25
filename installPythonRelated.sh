@@ -22,6 +22,7 @@ if [ -n $PYINDI_COMMIT ] && [ $PYINDI_COMMIT != "master" ]; then
 else
 	git pull origin
 fi
+sudo /usr/local/tahti/venv/bin/pip install setuptools
 sudo /usr/local/tahti/venv/bin/python setup.py install || {
 	echo "PYINDI installation failed"
 	exit 1
