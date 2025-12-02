@@ -28,6 +28,6 @@ sudo /usr/local/tahti/venv/bin/python setup.py install || {
 	exit 1
 }
 
-sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT
+sudo /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT fastapi uvicorn
 sudo /usr/local/tahti/venv/bin/pip install --use-pep517 git+https://github.com/joxda/gps3.git git+https://github.com/knro/indiwebmanager.git git+https://github.com/joxda/pyINDI.git
 sudo /usr/local/tahti/venv/bin/pip install flask_socketio gevent ephem

@@ -57,6 +57,9 @@ def authenticate():
     next_url = request.args.get("next", "/secure/index.html")
     p = pam.pam()
     if p.authenticate(username, password):
+        if p.code == pam.PAM_NEW_AUTHTOK_REQD:
+            # Redirect to password change form
+            return redirect(f"/change_password/?user={username}")
         token = generate_jwt(username)
         response = make_response(redirect(next_url))
         response.set_cookie(
@@ -76,6 +79,9 @@ def authenticate2():
     next_url = request.args.get("next", "/secure/index.html")
     p = pam.pam()
     if p.authenticate(username, password):
+        if p.code == pam.PAM_NEW_AUTHTOK_REQD:
+            # Redirect to password change form
+            return redirect(f"/change_password/?user={username}")
         token = generate_jwt(username)
         response = make_response(redirect(next_url))
         response.set_cookie(
@@ -129,6 +135,54 @@ def fetch_secure_content(path):
             return make_response(redirect("/?next=" + path))
     except requests.RequestException:
         return "Error fetching content", 500
+
+
+CHANGE_FORM = """
+<!DOCTYPE html>
+<html>
+<head><title>Change Password</title></head>
+<body>
+<h2>Password change required</h2>
+<form method="POST">
+<label>Old Password:</label>
+<input type="password" name="old_password" required><br><br>
+
+<label>New Password:</label>
+<input type="password" name="new_password" required><br><br>
+<label>Repeat:</label>
+<input type="password" name="new_password2" required><br><br>
+
+<button type="submit">Change</button>
+</form>
+</body>
+</html>
+"""
+
+
+@app.route("/change_password/", methods=["GET", "POST"])
+def change_password():
+    username = request.args.get("user")
+
+    if request.method == "GET":
+        return CHANGE_FORM
+
+    old = request.form["old_password"]
+    new = request.form["new_password"]
+    new2 = request.form["new_password2"]
+
+    if new == new2:
+        p = pam.pam()
+        # Try to change password
+        result = p.chauthtok(username, old, new)
+
+        if result:
+            return redirect("/?t=Password changed successfully")
+        else:
+            return redirect("/change_password/?user=" + username + "&t=Failed")
+    else:
+        return redirect(
+            "/change_password/?user=" + username + "&t=Passwords did not match"
+        )
 
 
 # Secure1 Wrapped with Header
