@@ -10,19 +10,21 @@ class IndiClient(PyIndi.BaseClient):
     def __init__(self):
         super().__init__()
 
-    def connect(self, server="localhost", port=8624):
+    def connect(self, server="localhost", port=7624):
         self.setServer(server, port)
         if not self.connectServer():
             print("Failed to connect to INDI server")
             return False
         time.sleep(2)
-        for device_name in self.getDevices():
-            device = self.get(device_name)
+        for device in self.getDevices():
+            print(device)
+            print(device.getDeviceName())
             if device:
-                for prop in device.getPropertoes():
-                    if "EQUATORIAL_EOD_COORD" in prop.name:
-                        self.telescope_device = device_name
-                        print(f"Using telescope: {self.telescope_device}")
+                for prop in device.getProperties():
+                    print(prop.getName())
+                    if prop.getName() in ("EQUATORIAL_EOD_COORD", "EQUATORIAL_COORD", "EQUATORIAL_COORD_REQUEST"):
+                        self.telescope_device = device
+                        print(f"Using telescope: {self.telescope_device.getDeviceName()}")
                         return True
         print("No telescope found")
         return False
@@ -45,7 +47,7 @@ class IndiClient(PyIndi.BaseClient):
 
 
 indiclient = IndiClient()
-indiclient.setServer("localhost", 8624)
+indiclient.setServer("localhost", 7624)
 connected = indiclient.connect()
 
 
