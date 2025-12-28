@@ -37,9 +37,11 @@ git pull
 # stuff below should be mostly more like a one time setup and not run with every update?
 "${SUDO[@]}" systemctl disable hciuart
 
-"${SUDO[@]}" raspi-config nonint do_vnc 0 
-"${SUDO[@]}" raspi-config nonint do_serial_cons 1
-"${SUDO[@]}" raspi-config nonint do_serial_hw 0
+if command -v raspi-config >/dev/null 2>&1; then
+  "${SUDO[@]}" raspi-config nonint do_vnc 0 
+  "${SUDO[@]}" raspi-config nonint do_serial_cons 1
+  "${SUDO[@]}" raspi-config nonint do_serial_hw 0
+fi
 
 "${SUDO[@]}" cp configs/wayvnc.config /etc/wayvnc/config
 
@@ -57,15 +59,6 @@ git pull
 "${SUDO[@]}" systemctl enable pyclient.#!/bin/bash
 
 
-# Enable UFW (if not enabled already)
-ufw enable
-# Allow INDI server port (default 7624)
-ufw allow 7624/tcp
-# Allow SSH (optional, if you need remote access)
-ufw allow ssh
-# Default firewall settings: deny incoming, allow outgoing
-ufw default deny incoming
-ufw default allow outgoing
 
 
 
