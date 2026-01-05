@@ -3,12 +3,14 @@ Description=Auth service
 After=multi-user.target
 
 [Service]
-Type=idle
+Type=simple
 User=root
 ExecStart=/usr/local/tahti/venv/bin/python /usr/local/tahti/auth.py
 Restart=always
 Environment="PATH=/usr/local/tahti/venv/bin"
 RestartSec=5
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target

@@ -3,11 +3,14 @@ Description=Astro Panel
 After=multi-user.target gpsd.socket
 
 [Service]
-Type=idle
-User=root
+Type=simple
+User=tahti
 ExecStart=/usr/local/tahti/venv/bin/python /var/www/astropanel/astropanel.py
 Restart=always
 RestartSec=10
+Environment="PATH=/usr/local/tahti/venv/bin"
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target

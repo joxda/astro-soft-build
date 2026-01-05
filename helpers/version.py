@@ -1,31 +1,38 @@
-from flask import Flask, render_template_string
 import os
 import subprocess
 
+from flask import Flask, render_template_string
+
 app = Flask(__name__)
 
-REPO_PARENT_DIR = "/path/to/your/repositories"
+REPO_PARENT_DIR = "/usr/local/tahti/repos"
+
 
 def run_git_command(repo_path, command):
-   try:
-       return subprocess.check_output(command, cwd=repo_path, shell=True, text=True).strip()
-   except subprocess.CalledProcessError:
-       return "N/A"
+    try:
+        return subprocess.check_output(
+            command, cwd=repo_path, shell=True, text=True
+        ).strip()
+    except subprocess.CalledProcessError:
+        return "N/A"
+
 
 @app.route("/")
 def git_status():
-   repo_statuses = []
-   for repo in os.listdir(REPO_PARENT_DIR):
-       repo_path = os.path.join(REPO_PARENT_DIR, repo)
+    repo_statuses = []
+    for repo in os.listdir(REPO_PARENT_DIR):
+        repo_path = os.path.join(REPO_PARENT_DIR, repo)
 
-       if os.path.isdir(repo_path) and os.path.isdir(os.path.join(repo_path, ".git")):
-           branch = run_git_command(repo_path, "git rev-parse --abbrev-ref HEAD")
-           tag = run_git_command(repo_path, "git describe --tags --exact-match HEAD")
-           commit = run_git_command(repo_path, "git rev-parse --short HEAD")
+        if os.path.isdir(repo_path) and os.path.isdir(os.path.join(repo_path, ".git")):
+            branch = run_git_command(repo_path, "git rev-parse --abbrev-ref HEAD")
+            tag = run_git_command(repo_path, "git describe --tags --exact-match HEAD")
+            commit = run_git_command(repo_path, "git rev-parse --short HEAD")
 
-           repo_statuses.append({"name": repo, "branch": branch, "tag": tag, "commit": commit})
+            repo_statuses.append(
+                {"name": repo, "branch": branch, "tag": tag, "commit": commit}
+            )
 
-   html_template = """<!DOCTYPE html>
+    html_template = """<!DOCTYPE html>
    <html lang="en">
    <head>
        <meta charset="UTF-8">
@@ -59,8 +66,8 @@ def git_status():
    </body>
    </html>"""
 
-   return render_template_string(html_template, repo_statuses=repo_statuses)
+    return render_template_string(html_template, repo_statuses=repo_statuses)
+
 
 if __name__ == "__main__":
-   app.run(host="127.0.0.1", port=5080)
-
+    app.run(host="127.0.0.1", port=5080)

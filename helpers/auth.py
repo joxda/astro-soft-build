@@ -2,6 +2,9 @@ from flask import Flask, redirect, request, make_response, render_template_strin
 import pam
 import datetime
 import os
+
+import jwt
+import pam
 import requests
 import jwt
 
@@ -97,6 +100,7 @@ def default_password_still_valid(username):
     return p.authenticate(username, DEFAULT_PASSWORD)
 
 # ================= ROUTES =================
+
 
 @app.route("/auth/", methods=["GET", "POST"])
 def authenticate():
@@ -231,6 +235,55 @@ def fetch_secure_content(path):
         return r.text if r.status_code == 200 else ("Unauthorized", 401)
     except requests.RequestException:
         return "Backend error", 500
+
+
+CHANGE_FORM = """
+<!DOCTYPE html>
+<html>
+<head><title>Change Password</title></head>
+<body>
+<h2>Password change required</h2>
+<form method="POST">
+<label>Old Password:</label>
+<input type="password" name="old_password" required><br><br>
+
+<label>New Password:</label>
+<input type="password" name="new_password" required><br><br>
+<label>Repeat:</label>
+<input type="password" name="new_password2" required><br><br>
+
+<button type="submit">Change</button>
+</form>
+</body>
+</html>
+"""
+
+
+@app.route("/change_password/", methods=["GET", "POST"])
+def change_password():
+    username = request.args.get("user")
+
+    if request.method == "GET":
+        return CHANGE_FORM
+
+    old = request.form["old_password"]
+    new = request.form["new_password"]
+    new2 = request.form["new_password2"]
+
+    if new == new2:
+        p = pam.pam()
+        # Try to change password
+        result = p.chauthtok(username, old, new)
+
+        if result:
+            return redirect("/?t=Password changed successfully")
+        else:
+            return redirect("/change_password/?user=" + username + "&t=Failed")
+    else:
+        return redirect(
+            "/change_password/?user=" + username + "&t=Passwords did not match"
+        )
+
 
 @app.route("/secure/<path:subpath>")
 def secure(subpath):

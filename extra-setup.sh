@@ -57,10 +57,3 @@ fi
 "${SUDO[@]}" systemctl enable pointing.service
 "${SUDO[@]}" systemctl enable auth.service
 "${SUDO[@]}" systemctl enable pyclient.#!/bin/bash
-
-
-
-
-
-
-

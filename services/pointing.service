@@ -1,13 +1,15 @@
-[Service]
+[Unit]
 After=multi-user.target
 
-Type=idle
-User=root
+[Service]
+Type=simple
+User=tahti
 ExecStart=/usr/local/tahti/venv/bin/python /usr/local/tahti/pointing.py
 Restart=always
-WorkingDirectory=/usr/local/indiweb
 Environment="PATH=/usr/local/tahti/venv/bin"
 RestartSec=5
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
