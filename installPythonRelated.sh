@@ -16,7 +16,7 @@ cd "$ROOTDIR"
 
 #PYINDI_COMMIT="v2.1.2"
 
-[ ! -d "/usr/local/tahti/venv" ] && { "${SUDO[@]}" python -m venv /usr/local/tahti/venv; }
+[ ! -d "/usr/local/tahti/venv" ] && { "${SUDO[@]}" python -m venv /usr/local/tahti/venv --system-site-packages; }
 
 cd "$ROOTDIR"
 [ ! -d "pyindi-client" ] && { git clone https://github.com/indilib/pyindi-client.git || {
@@ -34,6 +34,6 @@ fi
 	exit 1
 }
 
-"${SUDO[@]}" /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT
+"${SUDO[@]}" /usr/local/tahti/venv/bin/pip install python-pam six flask_cors PyJWT fastapi uvicorn
 "${SUDO[@]}" /usr/local/tahti/venv/bin/pip install --use-pep517 git+https://github.com/joxda/gps3.git git+https://github.com/knro/indiwebmanager.git git+https://github.com/joxda/pyINDI.git
 "${SUDO[@]}" /usr/local/tahti/venv/bin/pip install flask_socketio gevent ephem
