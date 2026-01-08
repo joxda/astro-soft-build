@@ -1,12 +1,23 @@
-from flask import Flask, redirect, request, make_response, render_template_string
-import pam
 import datetime
 import os
+import subprocess
 
 import jwt
 import pam
 import requests
-import jwt
+from flask import Flask, make_response, redirect, render_template_string, request
+
+
+def change_password(username, new_password):
+    process = subprocess.Popen(
+        ["passwd", username],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    process.communicate(f"{new_password}\n{new_password}\n")
+
 
 # ================= CONFIG =================
 
@@ -82,16 +93,15 @@ window.onload = loadHints;
 
 # ================= HELPERS =================
 
+
 def generate_jwt(username):
     exp = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
-    return jwt.encode(
-        {"username": username, "exp": exp},
-        SECRET_KEY,
-        algorithm="HS256"
-    )
+    return jwt.encode({"username": username, "exp": exp}, SECRET_KEY, algorithm="HS256")
+
 
 def pam_error(p, fallback="Operation failed"):
     return p.reason if getattr(p, "reason", None) else fallback
+
 
 def default_password_still_valid(username):
     if username != DEFAULT_USERNAME:
@@ -99,16 +109,14 @@ def default_password_still_valid(username):
     p = pam.pam()
     return p.authenticate(username, DEFAULT_PASSWORD)
 
+
 # ================= ROUTES =================
 
 
 @app.route("/auth/", methods=["GET", "POST"])
 def authenticate():
     if request.method == "GET":
-        return render_template_string(
-            LOGIN_FORM,
-            text=request.args.get("t", "")
-        )
+        return render_template_string(LOGIN_FORM, text=request.args.get("t", ""))
 
     username = request.form.get("username")
     password = request.form.get("password")
@@ -118,8 +126,7 @@ def authenticate():
     if not p.authenticate(username, password):
         msg = pam_error(p, "Login failed")
         return render_template_string(
-            LOGIN_FORM,
-            text=f"<p style='color:red'>{msg}</p>"
+            LOGIN_FORM, text=f"<p style='color:red'>{msg}</p>"
         )
 
     token = generate_jwt(username)
@@ -131,6 +138,7 @@ def authenticate():
 
     response.set_cookie("jwt", token, httponly=True, secure=True)
     return response
+
 
 @app.route("/force-change/", methods=["GET", "POST"])
 def force_change():
@@ -159,20 +167,25 @@ def force_change():
                 text = f"<p style='color:red'>{pam_error(p, 'Current password incorrect')}</p>"
             else:
                 try:
-                    p.chauthtok(current, new1)
+                    change_password(username, new1)
 
                     # 🔐 expire session + force re-login
                     revoked_tokens.add(token)
                     response = make_response(
                         redirect("/auth/?t=Password%20changed.%20Please%20log%20in")
                     )
-                    response.set_cookie("jwt", "", expires=0, httponly=True, secure=True)
+                    response.set_cookie(
+                        "jwt", "", expires=0, httponly=True, secure=True
+                    )
                     return response
 
                 except Exception:
-                    text = f"<p style='color:red'>{pam_error(p, 'Password rejected')}</p>"
+                    text = (
+                        f"<p style='color:red'>{pam_error(p, 'Password rejected')}</p>"
+                    )
 
     return render_template_string(FORCE_CHANGE_FORM, text=text)
+
 
 @app.route("/pam-hints/", methods=["GET"])
 def pam_hints():
@@ -186,9 +199,13 @@ def pam_hints():
     except Exception:
         pass
 
-    hint = p.reason if getattr(p, "reason", None) else \
-           "Password must meet system security requirements"
+    hint = (
+        p.reason
+        if getattr(p, "reason", None)
+        else "Password must meet system security requirements"
+    )
     return hint, 200
+
 
 @app.route("/validate/", methods=["GET"])
 def validate():
@@ -210,6 +227,7 @@ def validate():
     except jwt.InvalidTokenError:
         return "Invalid token", 401
 
+
 @app.route("/logout/")
 def logout():
     token = request.cookies.get("jwt")
@@ -220,7 +238,9 @@ def logout():
     response.set_cookie("jwt", "", expires=0, httponly=True, secure=True)
     return response
 
+
 # ================= PROXY =================
+
 
 def fetch_secure_content(path):
     backend_url = f"http://localhost:8080{path}"
@@ -288,6 +308,7 @@ def change_password():
 @app.route("/secure/<path:subpath>")
 def secure(subpath):
     return fetch_secure_content(f"/{subpath}")
+
 
 # ================= MAIN =================
 
