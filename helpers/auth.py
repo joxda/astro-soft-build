@@ -8,7 +8,7 @@ import requests
 from flask import Flask, make_response, redirect, render_template_string, request
 
 
-def change_password(username, new_password):
+def _change_password(username, new_password):
     process = subprocess.Popen(
         ["passwd", username],
         stdin=subprocess.PIPE,
@@ -116,7 +116,8 @@ def default_password_still_valid(username):
 @app.route("/auth/", methods=["GET", "POST"])
 def authenticate():
     if request.method == "GET":
-        return render_template_string(LOGIN_FORM, text=request.args.get("t", ""))
+        response = make_response(redirect("/"))
+        return response
 
     username = request.form.get("username")
     password = request.form.get("password")
@@ -124,10 +125,9 @@ def authenticate():
 
     p = pam.pam()
     if not p.authenticate(username, password):
-        msg = pam_error(p, "Login failed")
-        return render_template_string(
-            LOGIN_FORM, text=f"<p style='color:red'>{msg}</p>"
-        )
+        msg = pam_error(p, "Login%20failed")
+        response = make_response(redirect(f"/?t={msg}"))
+        return response
 
     token = generate_jwt(username)
 
@@ -144,13 +144,13 @@ def authenticate():
 def force_change():
     token = request.cookies.get("jwt")
     if not token:
-        return redirect("/auth/")
+        return redirect("/")
 
     try:
         decoded = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
         username = decoded["username"]
     except jwt.InvalidTokenError:
-        return redirect("/auth/")
+        return redirect("/")
 
     text = ""
 
@@ -167,12 +167,12 @@ def force_change():
                 text = f"<p style='color:red'>{pam_error(p, 'Current password incorrect')}</p>"
             else:
                 try:
-                    change_password(username, new1)
+                    _change_password(username, new1)
 
                     # 🔐 expire session + force re-login
                     revoked_tokens.add(token)
                     response = make_response(
-                        redirect("/auth/?t=Password%20changed.%20Please%20log%20in")
+                        redirect("?t=Password%20changed.%20Please%20log%20in")
                     )
                     response.set_cookie(
                         "jwt", "", expires=0, httponly=True, secure=True
@@ -234,7 +234,7 @@ def logout():
     if token:
         revoked_tokens.add(token)
 
-    response = make_response(redirect("/auth/?t=Logged%20out"))
+    response = make_response(redirect("?t=Logged%20out"))
     response.set_cookie("jwt", "", expires=0, httponly=True, secure=True)
     return response
 
