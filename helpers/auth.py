@@ -9,6 +9,9 @@ from flask import Flask, make_response, redirect, render_template_string, reques
 
 
 def _change_password(username, new_password):
+    data = f"{username}:{new_password}"
+    subprocess.run(["chpasswd"], input=data, text=True, check=True)
+    return
     process = subprocess.Popen(
         ["passwd", username],
         stdin=subprocess.PIPE,
@@ -17,6 +20,32 @@ def _change_password(username, new_password):
         text=True,
     )
     process.communicate(f"{new_password}\n{new_password}\n")
+
+
+def get_mac(ip):
+    out = subprocess.check_output(["ip", "neigh", "show", ip], text=True)
+    for token in out.split():
+        if token.count(":") == 5:
+            return token
+    return None
+
+
+def allow_mac(mac):
+    subprocess.run(
+        [
+            "sudo",
+            "/usr/sbin/nft",
+            "add",
+            "element",
+            "inet",
+            "wifi",
+            "auth_macs",
+            "{",
+            mac,
+            "}",
+        ],
+        check=True,
+    )
 
 
 # ================= CONFIG =================
@@ -122,6 +151,7 @@ def authenticate():
     username = request.form.get("username")
     password = request.form.get("password")
     next_url = request.args.get("next", "/")
+    ip = request.remote_addr
 
     p = pam.pam()
     if not p.authenticate(username, password):
@@ -134,6 +164,9 @@ def authenticate():
     if username == DEFAULT_USERNAME and password == DEFAULT_PASSWORD:
         response = make_response(redirect("/force-change/"))
     else:
+        mac = get_mac(ip)
+        if mac:
+            allow_mac(mac)
         response = make_response(redirect(next_url))
 
     response.set_cookie("jwt", token, httponly=True, secure=True)
