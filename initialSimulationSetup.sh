@@ -1,3 +1,4 @@
+indiwebmanager start
 indiwebmanagercli --host localhost --port 8624 create-profile Simulation
 indiwebmanagercli --host localhost --port 8624 add-driver Simulation indi_simulator_telescope
 indiwebmanagercli --host localhost --port 8624 add-driver Simulation indi_simulator_ccd
